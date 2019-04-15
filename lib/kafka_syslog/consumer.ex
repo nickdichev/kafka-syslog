@@ -5,8 +5,6 @@ defmodule KafkaSyslog.Consumer do
   alias NSyslog.Writer
   alias NSyslog.Writer.{Registry, Supervisor}
 
-  require Logger
-
   @db KafkaSyslog.MockDatabase
 
   def handle_message_set(message_set, state) do
