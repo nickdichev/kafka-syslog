@@ -22,7 +22,7 @@ defmodule KafkaSyslog.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nsyslog, git: "https://github.com/nickdichev/nsyslog.git", tag: "0.1.3"},
+      {:nsyslog, git: "https://github.com/nickdichev/nsyslog.git", tag: "0.1.4"},
       {:kafka_ex, "~> 0.10.0"},
       {:jason, "~> 1.1"}
     ]
