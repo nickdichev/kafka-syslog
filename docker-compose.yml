@@ -1,0 +1,35 @@
+version: "3.5"
+
+services:
+  syslog-ng:
+    image: balabit/syslog-ng:latest
+    ports:
+      - "514:514"
+      - "601:601"
+      - "6514:6514"
+    volumes:
+      - "./docker/syslog-ng/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf"
+      - "./docker/syslog-ng/certs:/etc/syslog-ng/certs"
+    networks:
+      - syslog_net
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports: 
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_CREATE_TOPICS: "messages:3:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+
+networks:
+  syslog_net:
+    name: syslog_net
