@@ -14,7 +14,7 @@ defmodule KafkaSyslog.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:nsyslog, :logger],
       mod: {KafkaSyslog.Application, []}
     ]
   end
@@ -22,7 +22,7 @@ defmodule KafkaSyslog.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nsyslog, git: "https://github.com/nickdichev/nsyslog.git", tag: "0.1.4"},
+      {:nsyslog, git: "https://github.com/nickdichev/nsyslog.git", tag: "0.1.5"},
       {:kafka_ex, "~> 0.10.0"},
       {:jason, "~> 1.1"}
     ]
