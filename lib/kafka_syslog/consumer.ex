@@ -7,13 +7,19 @@ defmodule KafkaSyslog.Consumer do
 
   @db KafkaSyslog.MockDatabase
 
+  defp send_message(aid, message) do
+    Task.Supervisor.start_child(KafkaSyslog.TaskSupervisor, fn ->
+      Writer.send(aid, message)
+    end)
+  end
+
   def handle_message_set(message_set, state) do
     for %Message{value: message} <- message_set do
       %{"aid" => aid, "message" => msg} = Jason.decode!(message)
 
       case Registry.lookup(aid) do
         [{_pid, _}] ->
-          Writer.send(aid, msg)
+          send_message(aid, msg)
 
         [] ->
           rfc = @db.get_rfc(aid)
@@ -28,7 +34,7 @@ defmodule KafkaSyslog.Consumer do
             aid: aid
           })
 
-          Writer.send(aid, msg)
+          send_message(aid, message)
       end
     end
 

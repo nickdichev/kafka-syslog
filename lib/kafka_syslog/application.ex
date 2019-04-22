@@ -18,7 +18,8 @@ defmodule KafkaSyslog.Application do
       supervisor(
         KafkaEx.ConsumerGroup,
         [KafkaSyslog.Consumer, consumer_group_name, topic_names, consumer_group_opts]
-      )
+      ),
+      {Task.Supervisor, name: KafkaSyslog.TaskSupervisor, strategy: :one_for_one}
     ]
 
     opts = [strategy: :one_for_one, name: KafkaSyslog.Supervisor]
